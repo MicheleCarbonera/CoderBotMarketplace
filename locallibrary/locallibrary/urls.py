@@ -6,7 +6,7 @@ from locallibrary import settings
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('product', views.index, name='index'),
+    path('search/', views.search, name='search'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
