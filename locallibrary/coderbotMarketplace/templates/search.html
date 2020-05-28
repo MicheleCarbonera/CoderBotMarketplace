@@ -6,6 +6,13 @@
     {% else %}
         <h1>Search: {{form}} </h1>
     {% endif %}
+    {%if preselect_cat != 0 %}
+        {% for category in categories_list %}
+            {% if category.id == preselect_cat %}
+                <h4 class="card-title">Category: {{category.IT_NameCategory}}</h4>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     
     <div class="row mb-4">
         
@@ -19,14 +26,48 @@
                             <i  class="fas fa-search text-white" aria-hidden="true"></i>
                         </span>
                     </button>
-                    <input class="form-control my-0 py-1" type="text" id="team_name" type="text" name="name_field" placeholder="Search" aria-label="Search">
+                        {% if form is None %}
+                            <input class="form-control my-0 py-1" type="text" id="team_name" type="text" name="name_field" placeholder="Search" aria-label="Search">
+                        {% else %}
+                            <input class="form-control my-0 py-1" type="text" id="team_name" type="text" name="name_field" placeholder="Search" value="{{form}}" aria-label="Search">
+                        {% endif %}
+                    <select id="category_field" name="category_field">
+                        <option value="0" selected>All</option>
+                        {% for category in categories_list %}
+                            {% if category.id == preselect_cat %}
+                                <option value="{{category.id}}" selected>{{ category.IT_NameCategory}}</option>
+                            {% else %}
+                                <option value="{{category.id}}">{{ category.IT_NameCategory}}</option>
+                            {% endif %}
+                        
+                        {% endfor %}
+                      </select>
                 </div>
             </div>
         </form>
 
 
-        {% for pack in packs %}
-            <div>{{pack.NamePackage}}</div>
-        {% endfor %}
+        <div class="container mt-5  ">
+            
+            {%if  packs.count  == 0%}
+                <h4 class="card-title">No packages found</h4>
+            {%else%}
+                <h4 class="card-title">{{packs.count }} packages found</h4>
+            {% endif %}
+
+            <div class="row">
+            {% for pack in packs %}
+                <div class="col-md-4 mt-5 ">
+                    <div class="card mb-2">
+                        <div class="card-body rounded  shadow">
+                            <img class="card-img-top" src="{% static image_cover %}" alt="package Image">
+                            <h5 class="card-title"><span class="badge badge-primary">Download</span></h5>
+                            <p class="card-title"><b>Nome:</b> {{ pack.IT_Name }}</p>
+                            <p class="card-title"><b>Info:</b> {{ pack.IT_Desc }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

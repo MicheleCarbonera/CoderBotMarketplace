@@ -6,3 +6,9 @@ class package_db(models.Model):
     IT_Name = models.CharField(max_length=100)
     IT_Desc = models.CharField(max_length=500)
     image_cover = models.CharField(max_length=500)
+    Category = models.IntegerField()
+
+# Create your models here.
+class package_category(models.Model):
+    NameCategory = models.CharField(max_length=100)
+    IT_NameCategory = models.CharField(max_length=100)
