@@ -9,6 +9,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('package/<str:pk>', views.package, name='package'),
     path('login/', views.login, name='login'),
+    path('profile', views.profile, name='profile')
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

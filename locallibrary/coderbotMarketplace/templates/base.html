@@ -35,7 +35,7 @@
                 {% if request.session.user in None %}
                     <a class="btn btn-light" href="/login/">Sign in</a>
                 {% else %}
-                    <a class="btn btn-success" href="/login/">
+                    <a class="btn btn-success" href="/profile">
                         <div class="row" style="height:25px; margin: 0px;" >
                             <i  class="fas fa-user fa-bleu" style="padding-right: 5px;padding-top: 4px;"  aria-hidden="true"></i>
                             <p class="card-title" >{{request.session.user}}</p>

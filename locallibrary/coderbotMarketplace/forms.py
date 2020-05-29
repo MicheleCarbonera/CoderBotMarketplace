@@ -10,3 +10,14 @@ class SearchForm(forms.Form):
 class SignInForm(forms.Form):
     user_email = forms.CharField(max_length=200, required=True)
     user_password = forms.CharField(max_length=200, required=True)
+    user_login = forms.CharField(max_length=200, required=True)
+
+class SignUpForm(forms.Form):
+    
+    user_email = forms.CharField(max_length=200, required=True)
+    user_email_1 = forms.CharField(max_length=200, required=True)
+    user_password = forms.CharField(max_length=200, required=True)
+    user_password_1 = forms.CharField(max_length=200, required=True)
+    user_name = forms.CharField(max_length=200, required=True)
+    user_surname = forms.CharField(max_length=200, required=True)
+    

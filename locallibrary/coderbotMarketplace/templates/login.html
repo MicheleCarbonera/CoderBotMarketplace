@@ -1,29 +1,103 @@
 {% extends "body.html" %}
 {% load static %}
 {% block page_content %}
-    
-        <h1>Login</h1>
+</div>
+
+        <div style="background-image: url('/staticfiles/image/splash_login.jpg');background-size: contain;margin-top: -17px;padding: 30px;min-height: 400px;">
             <center>
-            <form action="/login/" method="POST" >
-            {% csrf_token %}
-                <div class="row-md-2">
-                    <div class="col-md-2">
-                        <h5>User email</h5>
-                        <input class="form-control my-0 py-1" type="text" id="name_field"  name="user_email" placeholder="email" aria-label="email" />
+                {%if status is None %}
+                    <div></div>
+                {% else %}
+                    <div class="btn btn-danger">{{status}}</div>
+                {% endif %}
+                {%if ok_status is None %}
+                
+
+                <div class="row contain">
+                    <div class="col-md"  style="padding-right: 10px;">
+                        <form action="/login/" method="POST" style="width:60%;background-color:cornflowerblue;padding:10px">
+                        {% csrf_token %}
+                            <h2>Login</h2>
+                            <div class="row-md-2">
+                                <div class="">
+                                    <h5>User email</h5>
+                                    <input class="form-control my-0 py-1" type="text" id="name_field"  name="user_email" placeholder="email" aria-label="email" />
+                                </div>
+                            </div>
+                                    
+                            <div class="row-md-2">
+                                <div class="">
+                                    <h5>password</h5>
+                                    <input class="form-control my-0 py-1" type="password" id="name_field" name="user_password" placeholder="password" aria-label="password" />
+                                </div>
+                            </div>
+                            <input type="hidden" id="user_login" name="user_login" value="1992">
+                            <div style="border:0; padding-top:20px">
+                                <button class="btn btn-success" type="submit">
+                                    <h5>Login</h5>  
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                </div>
-                        
-                <div class="row-md-2">
-                    <div class="col-md-2">
-                        <h5>password</h5>
-                        <input class="form-control my-0 py-1" type="password" id="name_field" name="user_password" placeholder="password" aria-label="password" />
+                    <div class="col-md" style="padding-left: 10px;">
+                        <form action="/login/" method="POST"  style="width:60%;background-color: chocolate;padding:10px">
+                        {% csrf_token %}
+                            <h2>Registrazione</h2>
+                            <div class="row-md-2">
+                                <div class="">
+                                    <h5>Nome</h5>
+                                    <input class="form-control my-0 py-1" type="text" id="name_field" name="user_name" placeholder="nome" aria-label="nome" />
+                                </div>
+                            </div>
+                            <div class="row-md-2">
+                                <div class="">
+                                    <h5>Cognome</h5>
+                                    <input class="form-control my-0 py-1" type="text" id="name_field" name="user_surname" placeholder="cognome" aria-label="cognome" />
+                                </div>
+                            </div>
+                            <div class="row-md-2">
+                                <div class="">
+                                    <h5>User email</h5>
+                                    <input class="form-control my-0 py-1" type="text" id="name_field"  name="user_email" placeholder="email" aria-label="email" />
+                                </div>
+                            </div>
+                            <div class="row-md-2">
+                                <div class="">
+                                    <h5>Conferma email</h5>
+                                    <input class="form-control my-0 py-1" type="text" id="name_field"  name="user_email_1" placeholder="email" aria-label="email" />
+                                </div>
+                            </div>
+                                    
+                            <div class="row-md-2">
+                                <div class="">
+                                    <h5>password</h5>
+                                    <input class="form-control my-0 py-1" type="password" id="name_field" name="user_password" placeholder="password" aria-label="password" />
+                                </div>
+                            </div>
+                            <div class="row-md-2">
+                                <div class="">
+                                    <h5>Conferma password</h5>
+                                    <input class="form-control my-0 py-1" type="password" id="name_field" name="user_password_1" placeholder="password" aria-label="password" />
+                                </div>
+                            </div>
+                            <div style="border:0; padding-top:20px">
+                                <button class="btn btn-success" type="submit">
+                                    <h5>Sing up</h5>  
+                                </button>
+                            </div>
+                        </form>
                     </div>
+
                 </div>
-                <div style="border:0; padding-top:20px">
-                    <button class="btn btn-success" type="submit">
-                        <h5>Login</h5>  
-                    </button>
+            {% else %}
+            <a class="btn btn-success" href="/">
+                <div class="row" style="height:25px; margin: 0px;" >
+                    {{ok_status}}>
                 </div>
-            </form>
-        </center>
+            </a>
+
+            {% endif %}
+            </center>
+        </div>
+        <div>
 {% endblock %}

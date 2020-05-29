@@ -10,7 +10,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from coderbotMarketplace.forms import SearchForm,SignInForm
+from coderbotMarketplace.forms import SearchForm,SignInForm,SignUpForm
 
 
 
@@ -63,13 +63,16 @@ def package(request,pk):
 
 def login(request):
     code = 0
+    error_string = None
+    ok_string = None
     if request.method == 'POST':
         formIn = SignInForm(request.POST)
         code = 1
         if formIn.is_valid():            
+            
             user_email = request.POST.get('user_email')
             user_password = request.POST.get('user_password')
-            
+
             get_from_email = users.objects.filter(email=user_email)
             print(user_email)
             print(user_password)
@@ -80,13 +83,47 @@ def login(request):
                     code = 4
                     request.session["user"] = user_email
                     # request.session.set_expiry(10)
- 
+                    
+                    ok_string = "Accesso avvenuto con successo"
+                    print(ok_string)
                 else:
-                    code = 3
+                    error_string = "email o password non corretta in fase login"
+                    #password
             else:
-                code = 2 #no email in db
+                error_string = "email o password non corretta in fase login"
+                #email
         else:
-            print(83)
+            print(92)
+    if request.method == 'POST':
+        formIn_1 = SignUpForm(request.POST)
+        code = 1
+        if formIn_1.is_valid():
+            user_email = request.POST.get('user_email')
+            user_password = request.POST.get('user_password')
+            #registrazione
+            user_email_1 = request.POST.get('user_email_1')
+            user_password_1 = request.POST.get('user_password_1')
+            if user_email_1 == user_email:
+                if user_password_1 == user_password:
+                    user_name = request.POST.get('user_name')
+                    user_surname = request.POST.get('user_surname')
+                    print("-- reg data --")
+                    print(user_name)
+                    print(user_surname)
+                    print(user_email)
+                    print(user_password)
+                    print("--------------")
+                    ok_string = "Registrazione avvenuta con successo"
+                    print(ok_string)
+                else:
+                    error_string = "password differenti in registrazione"
+            else:
+                error_string = "email differenti in registrazione"
+        else:
+            print(103)
     print(code)
-    context_data = {"status":code}        
+    context_data = {"status":error_string,"ok_status":ok_string}        
     return render(request, "login.html",context_data)
+
+def profile(request):    
+    return render(request, "profile.html")

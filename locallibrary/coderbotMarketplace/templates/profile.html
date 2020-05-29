@@ -1,0 +1,29 @@
+{% extends "body.html" %}
+{% load static %}
+{% block page_content %}
+    
+        <h1>Login</h1>
+            <center>
+            <form action="/login/" method="POST" >
+            {% csrf_token %}
+                <div class="row-md-2">
+                    <div class="col-md-2">
+                        <h5>User email</h5>
+                        <input class="form-control my-0 py-1" type="text" id="name_field"  name="user_email" placeholder="email" aria-label="email" />
+                    </div>
+                </div>
+                        
+                <div class="row-md-2">
+                    <div class="col-md-2">
+                        <h5>password</h5>
+                        <input class="form-control my-0 py-1" type="password" id="name_field" name="user_password" placeholder="password" aria-label="password" />
+                    </div>
+                </div>
+                <div style="border:0; padding-top:20px">
+                    <button class="btn btn-success" type="submit">
+                        <h5>Login</h5>  
+                    </button>
+                </div>
+            </form>
+        </center>
+{% endblock %}
