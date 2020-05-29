@@ -9,15 +9,17 @@
                 <img class="card-img-top" src="{{  pack_selected.image_cover }}">
             </div>
             <div class="col-md-6 position-static p-4 pl-md-0">
-                <h5 class="mt-0">Description</h5>
+                <h5 class="mt-0">Categoria</h5>
+                    <p class="btn btn-success">{{ pack_selected_category.IT_NameCategory }}</p>                
+                <h5 class="mt-0">Descrizione</h5>
                 <p class="text-justify">{{ pack_selected.IT_Desc }}</p>
                 
-                    <h5 class="mt-0">Last version</h5>
+                    <h5 class="mt-0">Ultima versione</h5>
                     {% if pack_info is None %}
-                        <p class="text-justify">No version available</p>
+                        <p class="text-justify">Nessuna versione disponibile</p>
                     {% else %}
                         <p class="text-justify">{{ pack_info.version }} - {{ pack_info.timeupload }}</p>
-                        <a href="#" class="stretched-link">Download Product specification</a>
+                        <a href="/staticfiles/package/{{pack_selected.NamePackage}}/{{pack_selected.NamePackage}}_{{pack_info.version}}.zip" class="stretched-link">Download pachetto</a>
                     {% endif %}
             </div>
         </div>

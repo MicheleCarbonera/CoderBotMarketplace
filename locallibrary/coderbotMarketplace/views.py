@@ -50,7 +50,8 @@ def package(request,pk):
     pack_info = package_version.objects.filter(id_package=pack_sel.id).order_by('-timeupload')
     if pack_info.count()>0:
         pack_info = package_version.objects.filter(id_package=pack_sel.id).order_by('-timeupload')[:1].get()
+        pack_selected_category = package_category.objects.filter(id=pack_sel.Category)[:1].get()
     else:
         pack_info = None
-    context_data = {"pack_selected":pack_sel,"pack_info":pack_info}
+    context_data = {"pack_selected":pack_sel,"pack_info":pack_info,"pack_selected_category":pack_selected_category}
     return render(request, "package.html",context_data)
