@@ -32,7 +32,7 @@
                 </div>
             </form>
             <div style="padding-top: 35px!important; padding-right: 15px!important;">
-                {% if request.session.user in None %}
+                {% if request.session.user is None %}
                     <a class="btn btn-light" href="/login/">Sign in</a>
                 {% else %}
                     <a class="btn btn-success" href="/profile">
