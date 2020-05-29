@@ -18,3 +18,10 @@ class package_version(models.Model):
     version = models.CharField(max_length=100)
     timeupload = models.DateTimeField(max_length=100)
     downloadcount = models.IntegerField()
+
+class users(models.Model):
+    gender = models.IntegerField()
+    email = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)

@@ -1,13 +1,16 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from coderbotMarketplace.models import package_db, package_category, package_version
+from coderbotMarketplace.models import package_db, package_category, package_version, users
+
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from coderbotMarketplace.forms import SearchForm
+from coderbotMarketplace.forms import SearchForm,SignInForm
 
 
 
@@ -50,8 +53,40 @@ def package(request,pk):
     pack_info = package_version.objects.filter(id_package=pack_sel.id).order_by('-timeupload')
     if pack_info.count()>0:
         pack_info = package_version.objects.filter(id_package=pack_sel.id).order_by('-timeupload')[:1].get()
-        pack_selected_category = package_category.objects.filter(id=pack_sel.Category)[:1].get()
     else:
         pack_info = None
+    pack_selected_category = package_category.objects.filter(id=pack_sel.Category)[:1].get()
     context_data = {"pack_selected":pack_sel,"pack_info":pack_info,"pack_selected_category":pack_selected_category}
+    print(request.session["user"])
     return render(request, "package.html",context_data)
+
+
+def login(request):
+    code = 0
+    if request.method == 'POST':
+        formIn = SignInForm(request.POST)
+        code = 1
+        if formIn.is_valid():            
+            user_email = request.POST.get('user_email')
+            user_password = request.POST.get('user_password')
+            
+            get_from_email = users.objects.filter(email=user_email)
+            print(user_email)
+            print(user_password)
+
+            if get_from_email.count() >0:
+                get_from_email_password = users.objects.filter(email=user_email).filter(password=user_password)
+                if get_from_email_password.count()==1:
+                    code = 4
+                    request.session["user"] = user_email
+                    # request.session.set_expiry(10)
+ 
+                else:
+                    code = 3
+            else:
+                code = 2 #no email in db
+        else:
+            print(83)
+    print(code)
+    context_data = {"status":code}        
+    return render(request, "login.html",context_data)
