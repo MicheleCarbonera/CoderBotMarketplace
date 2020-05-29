@@ -10,20 +10,33 @@
 
     <nav class="">
         <div class="d-flex flex-column flex-md-row p-3 px-md-4 mb-3 border-bottom shadow-sm" 
-        style="background-image:linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5); width: 100%;">
-                <h1>
-                <img class="card-img-top" style="width:80px" src="staticfiles/image/universit-degli-studi-di-milano-bicocca-logo-png-transparent.png"/>
-                <h5 class="my-0 mr-md-auto font-weight-normal" style="margin-left: 15px;padding-top: 25px;" >
-                    <a class="navbar-brand" style="color: white;" href="{% url 'index' %}">Coderbot Marketplace</a>
-                </h5>
+        style="background-image:linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);width: 100%;padding-top: 0px!important;" >
+                
+                <img class="card-img-top" style="width:150px" src="/staticfiles/image/universit-degli-studi-di-milano-bicocca-logo-png-transparent.png"/>
+                <h2 class="my-0 mr-md-auto font-weight-normal" style="padding-bottom: 0px!important;" >
+                    <a class="navbar-brand" style="padding-top: 18px;padding-left: 10px;color: white;" href="{% url 'index' %}"><h1>Coderbot Marketplace</h1></a>
+                </h2>
             </h1>
             
 
             <!--
             <a class="p-2 text-dark" href="#">Contribute</a>--->
-            <a class="p-2 text-white" style="color: white;" href="../search/">Search</a>
+            <form class="p-2 text-dark" style="padding-top: 35px!important; padding-right: 15px!important;" action="/search/" method="GET" >
+                <div class="input-group md-form form-sm form-1 pl-0" >                    
+                    <button type="submit" style="border:0; padding:0">
+                        <span style="padding-top: 35px!important; padding-left: 15px!important; padding-right: 15px!important; border-radius: 2px;" id="basic-text1">
+                            <i  class="fas fa-search text-white" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <input class="form-control my-0 py-1" type="text" id="team_name" type="text" name="name_field" placeholder="Search" aria-label="Search /">  
+                </div>
+            </form>
+            <a class="btn btn-outline-secondary" href="">Sign in</a>
 
-            <a class="btn btn-outline-primary" style="color: white;" href="">Sign in</a>
+
+           
+
+            
         </div>
     </nav>
 <header class="container">

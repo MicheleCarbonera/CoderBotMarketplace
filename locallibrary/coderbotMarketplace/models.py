@@ -12,3 +12,9 @@ class package_db(models.Model):
 class package_category(models.Model):
     NameCategory = models.CharField(max_length=100)
     IT_NameCategory = models.CharField(max_length=100)
+
+class package_version(models.Model):
+    id_package = models.IntegerField()
+    version = models.CharField(max_length=100)
+    timeupload = models.DateTimeField(max_length=100)
+    downloadcount = models.IntegerField()

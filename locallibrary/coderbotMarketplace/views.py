@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from coderbotMarketplace.models import package_db, package_category
+from coderbotMarketplace.models import package_db, package_category, package_version
 
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
@@ -43,5 +43,14 @@ def search(request):
     context_data = {'form': words_search,"preselect_cat": int(category_search), "packs": packs, "categories_list":category_list}
     return render(request, "search.html",context_data)
 
-def package(request):
-    return render(request, "package.html")
+def package(request,pk):
+    pack_sel = package_db.objects.filter(NamePackage=pk)[:1].get()
+    
+
+    pack_info = package_version.objects.filter(id_package=pack_sel.id).order_by('-timeupload')
+    if pack_info.count()>0:
+        pack_info = package_version.objects.filter(id_package=pack_sel.id).order_by('-timeupload')[:1].get()
+    else:
+        pack_info = None
+    context_data = {"pack_selected":pack_sel,"pack_info":pack_info}
+    return render(request, "package.html",context_data)

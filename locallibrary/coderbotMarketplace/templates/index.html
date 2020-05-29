@@ -7,12 +7,12 @@
             <div class="col-md-4 mt-4 mb-4">
                 <div class="shadow">
                     <div class="card mb-2 border-0">
-                        <img class="card-img-top" src="{% static pack.image_cover %}" alt="package Image">
+                        <img class="card-img-top" src="{{ pack.image_cover }}" alt="package Image">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ pack.IT_Name }}</h5>
                         <p class="card-text text-justify">{{ pack.IT_Desc }}</p>
-                        <a  class="btn btn-primary">Open package card</a>
+                        <a href="/package/{{pack.NamePackage}}"  class="btn btn-primary">Open package card</a>
                     </div>
                 </div>
             </div>

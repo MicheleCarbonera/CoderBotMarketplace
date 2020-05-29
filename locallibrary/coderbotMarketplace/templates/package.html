@@ -1,20 +1,39 @@
 {% extends "body.html" %}
 {% load static %}
 {% block page_content %}
-    <h1>Top package</h1>
-    <div class="row mb-4">
-        
-            <div class="col-md-4 mt-4 mb-4">
-                <div class="shadow">
-                    <div class="card mb-2 border-0">
-                        <img class="card-img-top" src="{% static pack.image_cover %}" alt="package Image">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="card-text text-justify">f</p>
-                        <a  class="btn btn-primary">Open package card</a>
-                    </div>
-                </div>
+<div class="container  ">
+    <h2 class=" display-4 m-4"> <b>{{ pack_selected.IT_Name }} </b></h2>
+    <div class="container">
+        <div class="row no-gutters bg-light position-relative">
+            <div class="col-md-6 mb-md-0 p-md-4">
+                <img class="card-img-top" src="{{  pack_selected.image_cover }}">
             </div>
+            <div class="col-md-6 position-static p-4 pl-md-0">
+                <h5 class="mt-0">Description</h5>
+                <p class="text-justify">{{ pack_selected.IT_Desc }}</p>
+                
+                    <h5 class="mt-0">Last version</h5>
+                    {% if pack_info is None %}
+                        <p class="text-justify">No version available</p>
+                    {% else %}
+                        <p class="text-justify">{{ pack_info.version }} - {{ pack_info.timeupload }}</p>
+                        <a href="#" class="stretched-link">Download Product specification</a>
+                    {% endif %}
+            </div>
+        </div>
+
+
     </div>
+</div>
+
+<div class="container mt-5  ">
+        <h2 class=" display-4 m-4"> Requests</h2>
+    <div class="row   ">
+
+
+
+       
+    </div>
+
+</div>
 {% endblock %}
