@@ -42,3 +42,6 @@ def search(request):
 
     context_data = {'form': words_search,"preselect_cat": int(category_search), "packs": packs, "categories_list":category_list}
     return render(request, "search.html",context_data)
+
+def package(request):
+    return render(request, "package.html")
