@@ -9,7 +9,8 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('package/<str:pk>', views.package, name='package'),
     path('login/', views.login, name='login'),
-    path('profile', views.profile, name='profile')
+    path('profile', views.profile, name='profile'),
+    path('download_package/<str:package>/<str:version>', views.download_package, name='download_package'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

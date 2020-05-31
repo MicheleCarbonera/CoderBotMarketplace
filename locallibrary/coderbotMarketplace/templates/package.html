@@ -45,7 +45,7 @@
                         <p class="text-justify">Nessuna versione disponibile</p>
                     {% else %}
                         <p class="text-justify">{{ pack_info.version }} - {{ pack_info.timeupload }}</p>
-                        <a href="/staticfiles/package/{{pack_selected.NamePackage}}/{{pack_selected.NamePackage}}_{{pack_info.version}}.zip" class="stretched-link">Download pachetto</a>
+                        <a href="/download_package/{{pack_selected.NamePackage}}/{{pack_info.version}}" class="stretched-link">Download pachetto</a>
                     {% endif %}
             </div>
         </div>

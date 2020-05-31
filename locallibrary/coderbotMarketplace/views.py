@@ -86,10 +86,7 @@ def package(request,pk):
 
         
 
-    except e:
-        print("--")
-        print(e)
-        print("---")
+    except:
         like = None
 
     
@@ -178,3 +175,19 @@ def profile(request):
     except:
         context_data = {"saved_packs":None}
     return render(request, "profile.html",context_data)
+
+def download_package(request, package,version):
+    print("oioii")
+    print(package)
+    print(version)
+    #packs = package_db.objects.filter(NamePackage=package)
+    #pack_info = package_version.objects.filter(id_package=packs.id).filter(version=version).update(downloadcount = F('downloadcount')+1)
+    st = '/staticfiles/package/'+package+'/'+package+'_'+version+'.zip'
+    print(st)
+    fsock = open(st, 'r')
+    print(186)
+    response = HttpResponse(fsock, content_type='application/zip')
+    print(188)
+    response['Content-Disposition'] = "attachment; "
+    print(190)
+    return response
