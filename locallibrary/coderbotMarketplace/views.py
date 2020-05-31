@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from coderbotMarketplace.models import package_db, package_category, package_version, users
+from coderbotMarketplace.models import package_db, package_category, package_version, users, users_saved_package, carousel_home_slider
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -10,14 +10,21 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from coderbotMarketplace.forms import SearchForm,SignInForm,SignUpForm,LogoutForm
+from coderbotMarketplace.forms import SearchForm,SignInForm,SignUpForm,LogoutForm,PreferenceForm
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 
 
 # Create your views here.
 def index(request):
     res = package_db.objects.all()
-    context = {"packages": res}
+    caros = carousel_home_slider.objects.filter(visible=1)
+    carousel_help = list()
+    for i in range(caros.count()):
+        carousel_help.append(str(i))
+    print(carousel_help)
+    context = {"packages": res, "carousel_list":caros, "carousel_help":carousel_help }
 
     return render(request, "index.html",context)
 
@@ -48,7 +55,45 @@ def search(request):
 
 def package(request,pk):
     pack_sel = package_db.objects.filter(NamePackage=pk)[:1].get()
+
+    try: 
+        email = request.session["user"]
+
+        if request.method == 'POST':
+            print("f1")
+            formIn = PreferenceForm(request.POST)
+            print("f2")
+            _likes = users_saved_package.objects.filter(email_user=email).filter(pack_id_id=pack_sel.id)
+            print("f2b")
+            if formIn.is_valid(): 
+                print("f3")
+                if _likes.count()==0:
+                    print("f4")
+                    users_saved_package.objects.create(pack_id_id=pack_sel.id,email_user=email)
+                    print("f5")
+                else:   
+                    print("f6")
+                    users_saved_package.objects.filter(pack_id_id=pack_sel.id,email_user=email).delete()
+                    print("f7")
+
+        
+        
+        likes = users_saved_package.objects.filter(email_user=email).filter(pack_id_id=pack_sel.id)
+        if likes.count()==0:
+            like=0
+        else:
+            like=1
+
+        
+
+    except e:
+        print("--")
+        print(e)
+        print("---")
+        like = None
+
     
+
 
     pack_info = package_version.objects.filter(id_package=pack_sel.id).order_by('-timeupload')
     if pack_info.count()>0:
@@ -56,8 +101,7 @@ def package(request,pk):
     else:
         pack_info = None
     pack_selected_category = package_category.objects.filter(id=pack_sel.Category)[:1].get()
-    context_data = {"pack_selected":pack_sel,"pack_info":pack_info,"pack_selected_category":pack_selected_category}
-    print(request.session["user"])
+    context_data = {"pack_selected":pack_sel,"pack_info":pack_info,"pack_selected_category":pack_selected_category,"like":like}
     return render(request, "package.html",context_data)
 
 
@@ -81,7 +125,6 @@ def login(request):
                     code = 4
                     request.session["user"] = user_email
                     # request.session.set_expiry(10)
-                    
                     ok_string = "Accesso avvenuto con successo, clicca qui"
                 else:
                     error_string = "email o password non corretta in fase login"
@@ -106,20 +149,32 @@ def login(request):
                     if get_from_email.count() >0:
                          error_string = "email gia esistente in registrazione"
                     else:
-                        users.objects.create(email=user_email,password=user_password,name=user_name,surname=user_surname)
-                        ok_string = "Registrazione avvenuta con successo, clicca qui"
-                        request.session["user"] = user_email
+                        try:
+                            validate_email(user_email)
+                            users.objects.create(email=user_email,password=user_password,name=user_name,surname=user_surname)
+                            ok_string = "Registrazione avvenuta con successo, clicca qui"
+                            request.session["user"] = user_email
+                        except ValidationError as e:
+                            error_string = "formato email non valido"
                 else:
                     error_string = "password differenti in registrazione"
             else:
                 error_string = "email differenti in registrazione"
     if request.method == 'POST':
         formIn_out = LogoutForm(request.POST)
-        if formIn_out.is_valid():
+        if formIn_out.is_valid():    
             request.session["user"] = None
             ok_string = "Logout effetuato. A presto!"
     context_data = {"status":error_string,"ok_status":ok_string}        
     return render(request, "login.html",context_data)
 
-def profile(request):    
-    return render(request, "profile.html")
+def profile(request):   
+    try:  
+        email = request.session["user"]
+        context_data = None
+        if email is not None:
+            packs = users_saved_package.objects.filter(email_user=email)
+            context_data = {"saved_packs":packs}
+    except:
+        context_data = {"saved_packs":None}
+    return render(request, "profile.html",context_data)

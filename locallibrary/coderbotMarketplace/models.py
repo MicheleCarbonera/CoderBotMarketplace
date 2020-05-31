@@ -25,3 +25,19 @@ class users(models.Model):
     password = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
+
+class users_saved_package(models.Model):
+    pack_id = models.ForeignKey(package_db,on_delete=models.CASCADE)
+    email_user = models.CharField(max_length=100)
+    timestamp = models.DateTimeField(max_length=100)
+
+class carousel_home_slider(models.Model):
+    visible = models.IntegerField()
+    img_src = models.CharField(max_length=100)
+    line_1st = models.CharField(max_length=100)
+    line_2nd = models.CharField(max_length=100)
+    bck_rgba = models.CharField(max_length=100)
+    url_txt = models.CharField(max_length=100)
+    url_class = models.CharField(max_length=100)
+    url_link = models.CharField(max_length=100)
+    url_visible = models.IntegerField()

@@ -22,3 +22,7 @@ class SignUpForm(forms.Form):
 
 class LogoutForm(forms.Form):
     user_logout = forms.CharField(max_length=200, required=True)
+
+class PreferenceForm(forms.Form):
+    package_id = forms.CharField(max_length=200, required=True)
+    mode_pref = forms.CharField(max_length=200, required=True)

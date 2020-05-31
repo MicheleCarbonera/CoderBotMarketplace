@@ -3,12 +3,37 @@
 {% block page_content %}
 <div class="container  ">
     <h2 class=" display-4 m-4"> <b>{{ pack_selected.IT_Name }} </b></h2>
+    
     <div class="container">
         <div class="row no-gutters bg-light position-relative">
             <div class="col-md-6 mb-md-0 p-md-4">
                 <img class="card-img-top" src="{{  pack_selected.image_cover }}">
             </div>
             <div class="col-md-6 position-static p-4 pl-md-0">
+                {% if like is not None %}
+                    <div class="input-group md-form form-sm form-1 pl-0">
+                        <form action="#" method="POST"  >
+                        {% csrf_token %}
+                        {% if like == 1 %}
+                            <button class="btn btn-primary" type="submit" style="border:0; padding:5px"  >
+                                <div class="row" style="height:25px; margin: 0px;" >
+                                    <i class="fa fa-heart" style="padding: 4px;" aria-hidden="true"></i>
+                                    <p class="card-title" >Rimuovi</p>
+                                </div>
+                            </button>
+                        {% else %}
+                            <button class="btn btn-secondary" type="submit" style="border:0; padding:5px"  >
+                                <div class="row" style="height:25px; margin: 0px;" >
+                                    <i class="fa fa-heart-o" style="padding: 4px;" aria-hidden="true"></i>
+                                    <p class="card-title" >Aggiungi</p>
+                                </div>
+                            </button>
+                        {% endif %}
+                        <input type="hidden" id="mode_pref" name="mode_pref" value="1">
+                        <input type="hidden" id="package_id" name="package_id" value="1">
+                        </form>
+                    </div>
+                {% endif %}
                 <h5 class="mt-0">Categoria</h5>
                 
                     <p class="btn btn-success">{{ pack_selected_category.IT_NameCategory }}</p>                

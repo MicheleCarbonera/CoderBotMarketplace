@@ -2,28 +2,25 @@
 {% load static %}
 {% block page_content %}
     
-        <h1>Login</h1>
-            <center>
-            <form action="/login/" method="POST" >
-            {% csrf_token %}
-                <div class="row-md-2">
-                    <div class="col-md-2">
-                        <h5>User email</h5>
-                        <input class="form-control my-0 py-1" type="text" id="name_field"  name="user_email" placeholder="email" aria-label="email" />
+        <h1>Profilo</h1>
+        {% if request.session.user is None %}
+            <h3>non &egrave stato effettuato il login</h3>
+        {% else %}
+            <div class="container mt-5">
+                <h4>Pacchetti salvati</h4>
+                <div class="row mb-4">
+                {% for pack in saved_packs %}
+                    <div class="col-md-4 mt-5 ">
+                        <div class="card mb-2">                            
+                            <div class="card-body rounded  shadow">
+                                <img class="card-img-top" src="{{ pack.pack_id.image_cover }}" alt="package Image">
+                                <p class="card-title"><b>Nome:</b> {{ pack.pack_id.IT_Name }}</p>
+                                <a href="/package/{{pack.pack_id.NamePackage}}" class="btn btn-primary">Open product card</a>
+                            </div>                            
+                        </div>
                     </div>
+                {% endfor %}
                 </div>
-                        
-                <div class="row-md-2">
-                    <div class="col-md-2">
-                        <h5>password</h5>
-                        <input class="form-control my-0 py-1" type="password" id="name_field" name="user_password" placeholder="password" aria-label="password" />
-                    </div>
-                </div>
-                <div style="border:0; padding-top:20px">
-                    <button class="btn btn-success" type="submit">
-                        <h5>Login</h5>  
-                    </button>
-                </div>
-            </form>
-        </center>
+            </div>
+        {% endif %}
 {% endblock %}
