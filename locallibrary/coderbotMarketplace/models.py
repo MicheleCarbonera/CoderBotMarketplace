@@ -47,3 +47,13 @@ class carousel_home_slider(models.Model):
     url_class = models.CharField(max_length=100)
     url_link = models.CharField(max_length=100)
     url_visible = models.IntegerField()
+
+class package_collection(models.Model):
+    NameCollection = models.CharField(max_length=100)
+    IT_Name = models.CharField(max_length=100)
+    IT_Desc = models.CharField(max_length=100)
+    image_cover = models.CharField(max_length=100)
+
+class package_collection_join(models.Model):
+    package_id = models.ForeignKey(package_db,on_delete=models.CASCADE)
+    collection_id = models.ForeignKey(package_collection, on_delete=models.CASCADE)

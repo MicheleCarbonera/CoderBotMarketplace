@@ -11,6 +11,8 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('profile', views.profile, name='profile'),
     path('download_package/<str:package>/<str:version>', views.download_package, name='download_package'),
+    path('collection/<str:nameCollection>', views.collection, name='collection'),
+    path('collections/', views.collections, name='collections'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from coderbotMarketplace.models import package_db, package_category, package_version, users, users_saved_package, carousel_home_slider, users_download_package
+from coderbotMarketplace.models import package_db, package_category, package_version, users, users_saved_package, carousel_home_slider, users_download_package, package_collection, package_collection_join
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -174,3 +174,17 @@ def download_package(request, package,version):
         except:
             a = 0
     return render(request, "profile.html")
+
+def collection(request, nameCollection):
+    collectionCheck = package_collection.objects.filter(NameCollection=nameCollection)
+    context_data = {}
+    if (collectionCheck.count() == 1):
+        collection = package_collection.objects.filter(NameCollection=nameCollection)[:1].get()
+        packages = package_collection_join.objects.filter(collection_id = collection.id)
+        context_data = {"collection":collection, "packages":packages}
+    return render(request, "collection.html",context_data)
+
+def collections(request,):
+    collections = package_collection.objects.all()
+    context_data = {"collections":collections}
+    return render(request, "collections.html",context_data)

@@ -1,0 +1,28 @@
+{% extends "body.html" %}
+{% load static %}
+{% block page_content %}
+    
+        {% if request.session.user is None %}
+            <h3>non &egrave stato effettuato il login</h3>
+        {% else %}
+            
+            <div class="container mt-5">
+                <div class="row mb-4">
+                {% for coll in collections %}
+                    <div class="col-md-4 mt-1 ">
+                        <div class="card mb-4">                            
+                            <div class="card-body rounded  shadow">
+                                <img class="card-img-top" src="{{ coll.image_cover }}" alt="package Image">
+                                <p class="card-title"><b>Nome:</b> {{ coll.IT_Name }}</p>
+                                <a href="/collection/{{coll.NameCollection}}" class="btn btn-primary">Open product card</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                               
+                            </div>                            
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+{% endblock %}
