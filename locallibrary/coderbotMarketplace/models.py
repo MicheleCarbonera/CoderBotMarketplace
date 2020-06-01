@@ -31,6 +31,12 @@ class users_saved_package(models.Model):
     email_user = models.CharField(max_length=100)
     timestamp = models.DateTimeField(max_length=100)
 
+class users_download_package(models.Model):
+    pack_id = models.ForeignKey(package_db,on_delete=models.CASCADE)
+    version_id = models.CharField(max_length=100)
+    email_user = models.CharField(max_length=100)
+    timestamp = models.DateTimeField(max_length=100, auto_now=True)
+
 class carousel_home_slider(models.Model):
     visible = models.IntegerField()
     img_src = models.CharField(max_length=100)

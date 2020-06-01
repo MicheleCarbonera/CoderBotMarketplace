@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from coderbotMarketplace.models import package_db, package_category, package_version, users, users_saved_package, carousel_home_slider
+from coderbotMarketplace.models import package_db, package_category, package_version, users, users_saved_package, carousel_home_slider, users_download_package
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -23,7 +23,6 @@ def index(request):
     carousel_help = list()
     for i in range(caros.count()):
         carousel_help.append(str(i))
-    print(carousel_help)
     context = {"packages": res, "carousel_list":caros, "carousel_help":carousel_help }
 
     return render(request, "index.html",context)
@@ -55,43 +54,24 @@ def search(request):
 
 def package(request,pk):
     pack_sel = package_db.objects.filter(NamePackage=pk)[:1].get()
-
     try: 
         email = request.session["user"]
 
         if request.method == 'POST':
-            print("f1")
             formIn = PreferenceForm(request.POST)
-            print("f2")
             _likes = users_saved_package.objects.filter(email_user=email).filter(pack_id_id=pack_sel.id)
-            print("f2b")
             if formIn.is_valid(): 
-                print("f3")
                 if _likes.count()==0:
-                    print("f4")
                     users_saved_package.objects.create(pack_id_id=pack_sel.id,email_user=email)
-                    print("f5")
                 else:   
-                    print("f6")
-                    users_saved_package.objects.filter(pack_id_id=pack_sel.id,email_user=email).delete()
-                    print("f7")
-
-        
-        
+                    users_saved_package.objects.filter(pack_id_id=pack_sel.id,email_user=email).delete()        
         likes = users_saved_package.objects.filter(email_user=email).filter(pack_id_id=pack_sel.id)
         if likes.count()==0:
             like=0
         else:
             like=1
-
-        
-
     except:
         like = None
-
-    
-
-
     pack_info = package_version.objects.filter(id_package=pack_sel.id).order_by('-timeupload')
     if pack_info.count()>0:
         pack_info = package_version.objects.filter(id_package=pack_sel.id).order_by('-timeupload')[:1].get()
@@ -167,11 +147,16 @@ def login(request):
 
 def profile(request):   
     try:  
+        print("a")
         email = request.session["user"]
+        print("b")
         context_data = None
+        print(email)
         if email is not None:
-            packs = users_saved_package.objects.filter(email_user=email)
-            context_data = {"saved_packs":packs}
+            saved_packs = users_saved_package.objects.filter(email_user=email)
+            downloaded_packs= users_download_package.objects.filter(email_user=email)
+            context_data = {"saved_packs":saved_packs,"downloaded_packs":downloaded_packs}
+
     except:
         context_data = {"saved_packs":None}
     return render(request, "profile.html",context_data)
@@ -181,5 +166,11 @@ def download_package(request, package,version):
     if pks.count() == 1:
         packs = package_db.objects.filter(NamePackage=package)[:1].get()
         pack_info = package_version.objects.filter(id_package=packs.id).filter(version=version).update(downloadcount = F('downloadcount')+1)
-    
+        try: 
+            email = request.session["user"]        
+            pack_dwn_up = users_download_package.objects.filter(pack_id_id=packs.id).filter(email_user=email).update(version_id = version)
+            if pack_dwn_up == 0:
+                users_download_package.objects.create(pack_id_id=int(packs.id),email_user=email,version_id = version)
+        except:
+            a = 0
     return render(request, "profile.html")

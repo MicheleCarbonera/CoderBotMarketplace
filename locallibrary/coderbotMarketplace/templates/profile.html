@@ -7,6 +7,25 @@
             <h3>non &egrave stato effettuato il login</h3>
         {% else %}
             <div class="container mt-5">
+                <h4>Pacchetti scaricati</h4>
+                <div class="row mb-4">
+                {% for packdwn in downloaded_packs %}
+                    <div class="col-md-4 mt-1 ">
+                        <div class="card mb-4">                            
+                            <div class="card-body rounded  shadow">
+                                <img class="card-img-top" src="{{ packdwn.pack_id.image_cover }}" alt="package Image">
+                                <p class="card-title"><b>Nome:</b> {{ packdwn.pack_id.IT_Name }}</p>
+                                <a href="/package/{{packdwn.pack_id.NamePackage}}" class="btn btn-primary">Open product card</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                               Download: {{ packdwn.timestamp }}
+                            </div>                            
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+            <div class="container mt-5">
                 <h4>Pacchetti salvati</h4>
                 <div class="row mb-4">
                 {% for pack in saved_packs %}
