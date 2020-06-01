@@ -16,6 +16,8 @@ from django.core.validators import validate_email
 
 from django.db.models import F
 
+
+
 # Create your views here.
 def index(request):
     res = package_db.objects.all().order_by('-downloadcount')
@@ -185,7 +187,7 @@ def collection(request, nameCollection):
         context_data = {"collection":collection, "packages":packages}
     return render(request, "collection.html",context_data)
 
-def collections(request,):
+def collections(request):
     collections = package_collection.objects.all()
     context_data = {"collections":collections}
     return render(request, "collections.html",context_data)

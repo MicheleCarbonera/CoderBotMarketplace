@@ -15,5 +15,6 @@ urlpatterns = [
     path('collections/', views.collections, name='collections'),
 ]
 
+
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
