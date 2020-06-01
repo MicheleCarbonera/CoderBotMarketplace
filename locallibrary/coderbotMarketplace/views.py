@@ -14,7 +14,7 @@ from coderbotMarketplace.forms import SearchForm,SignInForm,SignUpForm,LogoutFor
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
-
+from django.db.models import F
 
 # Create your views here.
 def index(request):
@@ -177,17 +177,9 @@ def profile(request):
     return render(request, "profile.html",context_data)
 
 def download_package(request, package,version):
-    print("oioii")
-    print(package)
-    print(version)
-    #packs = package_db.objects.filter(NamePackage=package)
-    #pack_info = package_version.objects.filter(id_package=packs.id).filter(version=version).update(downloadcount = F('downloadcount')+1)
-    st = '/staticfiles/package/'+package+'/'+package+'_'+version+'.zip'
-    print(st)
-    fsock = open(st, 'r')
-    print(186)
-    response = HttpResponse(fsock, content_type='application/zip')
-    print(188)
-    response['Content-Disposition'] = "attachment; "
-    print(190)
-    return response
+    pks = package_db.objects.filter(NamePackage=package)
+    if pks.count() == 1:
+        packs = package_db.objects.filter(NamePackage=package)[:1].get()
+        pack_info = package_version.objects.filter(id_package=packs.id).filter(version=version).update(downloadcount = F('downloadcount')+1)
+    
+    return render(request, "profile.html")

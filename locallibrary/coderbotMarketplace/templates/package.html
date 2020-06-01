@@ -1,6 +1,24 @@
 {% extends "body.html" %}
+
 {% load static %}
+
 {% block page_content %}
+<script>
+    var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            //var response = xmlhttp.responseText; //if you need to do something with the returned value
+        }
+    }
+
+    function myAlertTest() {    
+        
+
+        xmlhttp.open("GET","/download_package/{{pack_selected.NamePackage}}/{{pack_info.version}}",true);
+        xmlhttp.send();
+    }
+
+</script>
 <div class="container  ">
     <h2 class=" display-4 m-4"> <b>{{ pack_selected.IT_Name }} </b></h2>
     
@@ -45,7 +63,10 @@
                         <p class="text-justify">Nessuna versione disponibile</p>
                     {% else %}
                         <p class="text-justify">{{ pack_info.version }} - {{ pack_info.timeupload }}</p>
-                        <a href="/download_package/{{pack_selected.NamePackage}}/{{pack_info.version}}" class="stretched-link">Download pachetto</a>
+                        
+                            <a onclick="myAlertTest()" href="/staticfiles/package/{{pack_selected.NamePackage}}/{{pack_selected.NamePackage}}_{{pack_info.version}}.zip" class="stretched-link">Download pachetto</a>
+                        
+
                     {% endif %}
             </div>
         </div>
