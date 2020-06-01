@@ -27,11 +27,13 @@
             
                             <img class="d-block w-100" src="{{ carousel_item.img_src }}">
                             <div class="carousel-caption d-none d-md-block" style="background-color:{{ carousel_item.bck_rgba }};width: 100%;left: 0%!important;bottom: 0px;"> 
-                                <h5>{{ carousel_item.line_1st }}</h5>
-                                <p>{{ carousel_item.line_2nd }}</p>
-                                {% if carousel_item.url_visible == 1 %}
-                                    <a href="{{ carousel_item.url_link}}" style="margin-bottom:20px" class="{{ carousel_item.url_class}}">{{ carousel_item.url_txt }} </a>
-                                {% endif %}
+                                <div style="padding-bottom: 20px;">
+                                    <h5>{{ carousel_item.line_1st }}</h5>
+                                    <p>{{ carousel_item.line_2nd }}</p>
+                                    {% if carousel_item.url_visible == 1 %}
+                                        <a href="{{ carousel_item.url_link}}"  class="{{ carousel_item.url_class}}">{{ carousel_item.url_txt }} </a>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                 {% endif %}
@@ -50,7 +52,7 @@
 
 
 
-    <h1>Top package</h1>
+    <h1 style="padding-top: 15px;">I pacchetti più scaricati</h1>
     <div class="row mb-4">
         {% for pack in packages %}
             <div class="col-md-4 mt-4 mb-4">

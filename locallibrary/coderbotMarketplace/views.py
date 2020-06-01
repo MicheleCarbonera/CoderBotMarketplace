@@ -18,12 +18,12 @@ from django.db.models import F
 
 # Create your views here.
 def index(request):
-    res = package_db.objects.all()
+    res = package_db.objects.all().order_by('-downloadcount')
     caros = carousel_home_slider.objects.filter(visible=1)
     carousel_help = list()
     for i in range(caros.count()):
         carousel_help.append(str(i))
-    context = {"packages": res, "carousel_list":caros, "carousel_help":carousel_help }
+    context = {"packages": res[:6], "carousel_list":caros, "carousel_help":carousel_help }
 
     return render(request, "index.html",context)
 
@@ -166,6 +166,7 @@ def download_package(request, package,version):
     if pks.count() == 1:
         packs = package_db.objects.filter(NamePackage=package)[:1].get()
         pack_info = package_version.objects.filter(id_package=packs.id).filter(version=version).update(downloadcount = F('downloadcount')+1)
+        pack_info = package_db.objects.filter(NamePackage=package).update(downloadcount = F('downloadcount')+1)
         try: 
             email = request.session["user"]        
             pack_dwn_up = users_download_package.objects.filter(pack_id_id=packs.id).filter(email_user=email).update(version_id = version)

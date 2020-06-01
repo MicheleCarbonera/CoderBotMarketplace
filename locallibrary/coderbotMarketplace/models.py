@@ -7,6 +7,7 @@ class package_db(models.Model):
     IT_Desc = models.CharField(max_length=500)
     image_cover = models.CharField(max_length=500)
     Category = models.IntegerField()
+    downloadcount = models.IntegerField()
 
 # Create your models here.
 class package_category(models.Model):
