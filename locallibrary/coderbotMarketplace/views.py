@@ -43,11 +43,11 @@ def search(request):
             category_search = "0"
             packs = package_db.objects.all()
         else:
-            packs = package_db.objects.filter(Category=category_search)
+            packs = package_db.objects.filter(Category=category_search.lower())
     else:
         if (category_search is None)or(category_search =='')or(category_search =='0'):
             category_search = "0"
-            packs = package_db.objects.filter(NamePackage__contains=words_search)
+            packs = package_db.objects.filter(IT_Desc__contains=words_search)
         else:
             packs = package_db.objects.filter(NamePackage__contains=words_search).filter(Category=category_search)
 
@@ -55,7 +55,7 @@ def search(request):
     return render(request, "search.html",context_data)
 
 def package(request,pk):
-    pack_sel = package_db.objects.filter(NamePackage=pk)[:1].get()
+    pack_sel = package_db.objects.filter(NamePackage=pk.lower())[:1].get()
     try: 
         email = request.session["user"]
 
@@ -116,10 +116,10 @@ def login(request):
         formIn_1 = SignUpForm(request.POST)
         code = 1
         if formIn_1.is_valid():
-            user_email = request.POST.get('user_email')
+            user_email = request.POST.get('user_email').lower()
             user_password = request.POST.get('user_password')
             #registrazione
-            user_email_1 = request.POST.get('user_email_1')
+            user_email_1 = request.POST.get('user_email_1').lower()
             user_password_1 = request.POST.get('user_password_1')
             if user_email_1 == user_email:
                 if user_password_1 == user_password:
@@ -166,7 +166,7 @@ def profile(request):
     return render(request, "profile.html",context_data)
 
 def download_package(request, package,version):
-    pks = package_db.objects.filter(NamePackage=package)
+    pks = package_db.objects.filter(NamePackage=package.lower())
     if pks.count() == 1:
         packs = package_db.objects.filter(NamePackage=package)[:1].get()
         pack_info = package_version.objects.filter(id_package=packs.id).filter(version=version).update(downloadcount = F('downloadcount')+1)
@@ -181,10 +181,10 @@ def download_package(request, package,version):
     return render(request, "profile.html")
 
 def collection(request, nameCollection):
-    collectionCheck = package_collection.objects.filter(NameCollection=nameCollection)
+    collectionCheck = package_collection.objects.filter(NameCollection=nameCollection.lower())
     context_data = {}
     if (collectionCheck.count() == 1):
-        collection = package_collection.objects.filter(NameCollection=nameCollection)[:1].get()
+        collection = package_collection.objects.filter(NameCollection=nameCollection.lower())[:1].get()
         packages = package_collection_join.objects.filter(collection_id = collection.id)
         context_data = {"collection":collection, "packages":packages}
     return render(request, "collection.html",context_data)

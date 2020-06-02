@@ -49,24 +49,32 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
-
+    
 
     <h1 style="padding-top: 15px;">I pacchetti più scaricati</h1>
-    <div class="row mb-4">
-        {% for pack in packages %}
-            <div class="col-md-4 mt-4 mb-4">
-                <div class="shadow">
-                    <div class="card mb-2 border-0">
-                        <img class="card-img-top" src="{{ pack.image_cover }}" alt="package Image">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ pack.IT_Name }}</h5>
-                        <p class="card-text text-justify">{{ pack.IT_Desc }}</p>
-                        <a href="/package/{{pack.NamePackage}}"  class="btn btn-primary">Open package card</a>
+    <div class="container">
+
+        <div class="row mb-4">
+            {% for pack in packages %}
+                <div class="col-md-4 mt-4 mb-4">
+                    <div class="shadow">
+                        <div class="card mb-2 border-0">
+                            <img class="card-img-top" src="{{ pack.image_cover }}" alt="package Image">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ pack.IT_Name }}</h5>
+                            <p class="card-text text-justify">{{ pack.IT_Desc }}</p>
+                            <a href="/package/{{pack.NamePackage}}"  class="btn btn-primary">Apri scheda pacchetto</a>
+                        </div>
                     </div>
                 </div>
+            {% endfor %}
+        </div>
+
+        <div class="row mb-4" style="margin-top: 20px;">
+            <div class="col-md-4 mt-4 mb-4">
+                <a href="/search/"  class="btn btn-primary">Vedi tutti i pacchetti</a>
             </div>
-        {% endfor %}
+        </div>
     </div>
 {% endblock %}
