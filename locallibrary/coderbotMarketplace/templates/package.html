@@ -76,9 +76,22 @@
 </div>
 
 <div class="container mt-5  ">
-        <h2 class=" display-4 m-4"> Requests</h2>
+        <h4 > Collezioni associate al pacchetto</h4> 
     <div class="row   ">
-
+        {% for coll in collection_pack %}
+        <div class="col-md-4 mt-1 ">
+            <div class="card mb-4">                            
+                <div class="card-body rounded  shadow">
+                    <img class="card-img-top" src="{{ coll.collection_id.image_cover }}" alt="package Image">
+                    <p class="card-title"><b>Nome:</b> {{ coll.collection_id.IT_Name }}</p>
+                    <a href="/collection/{{coll.collection_id.NameCollection}}" class="btn btn-primary">Open product card</a>
+                </div>
+                <div class="card-footer text-muted">
+                   
+                </div>                            
+            </div>
+        </div>
+    {% endfor %}
 
 
        

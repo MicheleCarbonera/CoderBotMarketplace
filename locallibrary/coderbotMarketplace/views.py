@@ -80,7 +80,8 @@ def package(request,pk):
     else:
         pack_info = None
     pack_selected_category = package_category.objects.filter(id=pack_sel.Category)[:1].get()
-    context_data = {"pack_selected":pack_sel,"pack_info":pack_info,"pack_selected_category":pack_selected_category,"like":like}
+    collection_pack = package_collection_join.objects.filter(package_id=pack_sel.id)
+    context_data = {"pack_selected":pack_sel,"pack_info":pack_info,"pack_selected_category":pack_selected_category,"like":like,"collection_pack":collection_pack}
     return render(request, "package.html",context_data)
 
 
@@ -143,6 +144,7 @@ def login(request):
         formIn_out = LogoutForm(request.POST)
         if formIn_out.is_valid():    
             request.session["user"] = None
+            del request.session["user"]
             ok_string = "Logout effetuato. A presto!"
     context_data = {"status":error_string,"ok_status":ok_string}        
     return render(request, "login.html",context_data)

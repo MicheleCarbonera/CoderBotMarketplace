@@ -6,6 +6,16 @@
         {% if request.session.user is None %}
             <h3>non &egrave stato effettuato il login</h3>
         {% else %}
+            <form action="/login/" method="POST" >
+                {% csrf_token %}
+                
+                <input type="hidden" id="user_login" name="user_logout" value="1992">
+                <div style="border:0; padding-top:20px">
+                    <button class="btn btn-warning" type="submit">
+                        <h5>Logout</h5>  
+                    </button>
+                </div>
+            </form>
             <div class="container mt-5">
                 <h4>Pacchetti scaricati</h4>
                 <div class="row mb-4">
